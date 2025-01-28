@@ -42,11 +42,13 @@ async function query(filterBy = {}) {
 		reviews = reviews.map(review => {
 			review.byUser = { 
                 _id: review.byUser._id, 
-                fullname: review.byUser.fullname 
+                fullname: review.byUser.fullname,
+                imgUrl: review.byUser.imgUrl
             }
 			review.aboutUser = { 
                 _id: review.aboutUser._id, 
-                fullname: review.aboutUser.fullname 
+                fullname: review.aboutUser.fullname,
+                imgUrl: review.aboutUser.imgUrl
             }
 			delete review.byUserId
 			delete review.aboutUserId
