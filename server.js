@@ -18,6 +18,7 @@ const server = http.createServer(app)
 // Express App Config
 app.use(cookieParser())
 app.use(express.json())
+app.use(express.static('public'))
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve('public')))
@@ -48,6 +49,7 @@ setupSocketAPI(server)
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
+    // console.log('🚀 req', req)
 })
 
 import { logger } from './services/logger.service.js'
@@ -56,3 +58,4 @@ const port = process.env.PORT || 3030
 server.listen(port, () => {
     logger.info('Server is running on port: ' + port)
 })
+

@@ -83,7 +83,7 @@ async function update(user) {
     try {
         // peek only updatable properties
         const userToSave = {
-            _id: ObjectId.createFromHexString(user._id), // needed for the returnd obj
+            _id: ObjectId.createFromHexString(user._id), // needed for the returned obj
             fullname: user.fullname,
             imgUrl: user.imgUrl,
         }
