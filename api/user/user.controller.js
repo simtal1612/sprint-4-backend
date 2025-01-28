@@ -45,3 +45,38 @@ export async function updateUser(req, res) {
         res.status(400).send({ err: 'Failed to update user' })
     }
 }
+
+
+export async function updateUserImg(req, res) {
+    try {
+        const { id } = req.params
+        const { imgUrl } = req.body
+        
+        if (!imgUrl) {
+            return res.status(400).send({ err: 'Image URL is required' })
+        }
+
+        const savedUser = await userService.updateImg(id, imgUrl)
+        res.send(savedUser)
+    } catch (err) {
+        logger.error('Failed to update user image', err)
+        res.status(400).send({ err: 'Failed to update user image' })
+    }
+}
+
+export async function updateUserFullname(req, res) {
+    try {
+        const { id } = req.params
+        const { fullname } = req.body
+        
+        if (!fullname) {
+            return res.status(400).send({ err: 'Fullname is required' })
+        }
+
+        const savedUser = await userService.updateFullname(id, fullname)
+        res.send(savedUser)
+    } catch (err) {
+        logger.error('Failed to update user fullname', err)
+        res.status(400).send({ err: 'Failed to update user fullname' })
+    }
+}

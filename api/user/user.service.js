@@ -10,6 +10,8 @@ export const userService = {
 	remove, // Delete (remove user)
 	query, // List (of users)
 	getByUsername, // Used for Login
+    updateImg, // Update user image
+    updateFullname, // Update user fullname
 }
 
 async function query(filterBy = {}) {
@@ -90,6 +92,42 @@ async function update(user) {
         return userToSave
     } catch (err) {
         logger.error(`cannot update user ${user._id}`, err)
+        throw err
+    }
+}
+
+async function updateImg(userId, imgUrl) {
+    try {
+        const userToSave = {
+            _id: ObjectId.createFromHexString(userId),
+            imgUrl
+        }
+        const collection = await dbService.getCollection('user')
+        await collection.updateOne(
+            { _id: userToSave._id },
+            { $set: { imgUrl: userToSave.imgUrl } }
+        )
+        return userToSave
+    } catch (err) {
+        logger.error(`cannot update user image ${userId}`, err)
+        throw err
+    }
+}
+
+async function updateFullname(userId, fullname) {
+    try {
+        const userToSave = {
+            _id: ObjectId.createFromHexString(userId),
+            fullname
+        }
+        const collection = await dbService.getCollection('user')
+        await collection.updateOne(
+            { _id: userToSave._id },
+            { $set: { fullname: userToSave.fullname } }
+        )
+        return userToSave
+    } catch (err) {
+        logger.error(`cannot update user fullname ${userId}`, err)
         throw err
     }
 }
