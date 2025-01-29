@@ -49,7 +49,6 @@ setupSocketAPI(server)
 
 app.get('/**', (req, res) => {
     res.sendFile(path.resolve('public/index.html'))
-    // console.log('🚀 req', req)
 })
 
 import { logger } from './services/logger.service.js'
