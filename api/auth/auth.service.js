@@ -34,11 +34,13 @@ async function signup({ username, password, fullname, imgUrl, isAdmin }) {
 	logger.debug(`auth.service - signup with username: ${username}, fullname: ${fullname}`)
 	if (!username || !password || !fullname) return Promise.reject('Missing required signup information')
 
+	const userImgUrl = imgUrl || generateAvatarUrl(fullname)
+
 	const userExist = await userService.getByUsername(username)
 	if (userExist) return Promise.reject('Username already taken')
 
 	const hash = await bcrypt.hash(password, saltRounds)
-	return userService.add({ username, password: hash, fullname, imgUrl, isAdmin })
+	return userService.add({ username, password: hash, fullname, imgUrl: userImgUrl, isAdmin })
 }
 
 function getLoginToken(user) {
@@ -60,4 +62,9 @@ function validateToken(loginToken) {
 		console.log('Invalid login token')
 	}
 	return null
+}
+
+function generateAvatarUrl(fullname) {
+    const initial = fullname ? fullname.charAt(0).toUpperCase() : 'U'
+    return `https://ui-avatars.com/api/?name=${initial}&background=random&size=200&bold=true`
 }

@@ -51,13 +51,11 @@ export async function updateBoard(req, res) {
     const { loggedinUser, body: board } = req
     const { _id: userId, isAdmin } = loggedinUser
 
-    if (!isAdmin && board.owner._id !== userId) {
+    if (!isAdmin && !board.members.some(member => member._id === userId)) {
         res.status(403).send('Not your board...')
         return
     }
-
     try {
-        // Validate groups and tasks structure
         if (board.groups) {
             board.groups = board.groups.map(group => ({
                 ...group,
